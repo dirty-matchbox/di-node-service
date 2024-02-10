@@ -1,15 +1,18 @@
 {
   "name": "@dirty-matchbox/di-node-service",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "./dist/index.js",
   "scripts": {
     "build": "tsc",
     "release": "standard-version && git push --follow-tags && npm publish"
-},
+  },
   "dependencies": {
-    "@dirty-matchbox/logger": "*",
     "@dirty-matchbox/database": "*",
+    "@dirty-matchbox/logger": "*",
     "awilix": "^8.0.1",
     "awilix-express": "^8.0.0"
+  },
+  "devDependencies": {
+    "standard-version": "^9.5.0"
   }
 }

@@ -7,10 +7,11 @@
     "release": "standard-version && git push --follow-tags && npm publish"
   },
   "dependencies": {
-    "@dirty-matchbox/database": "*",
-    "@dirty-matchbox/logger": "*",
+    "@dirty-matchbox/database": "git+https://github.com/dirty-matchbox/database",
+    "@dirty-matchbox/logger": "git+https://github.com/dirty-matchbox/logger",
     "awilix": "^8.0.1",
-    "awilix-express": "^8.0.0"
+    "awilix-express": "^8.0.0",
+    "express": "^4.18.2"
   },
   "devDependencies": {
     "standard-version": "^9.5.0"

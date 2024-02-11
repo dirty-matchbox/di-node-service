@@ -26,7 +26,6 @@ class Service<InclusiveInjections, InclusiveConfig = unknown> {
 
   constructor({ config }: { config: ServiceConfig & InclusiveConfig }) {
     this.config = config;
-    console.log("DADA")
     this.container.register({
       config: asValue(config),
       logger: asClass(Logger).singleton(),

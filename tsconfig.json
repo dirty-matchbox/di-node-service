@@ -2,6 +2,5 @@
   "compilerOptions": {
     "composite": true,
     "outDir": "./dist",    
-  },
-  "references": [{ "path": "../database"}, { "path": "../logger"}]
+  }
 }

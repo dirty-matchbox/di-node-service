@@ -35,8 +35,8 @@ class Service<InclusiveInjections, InclusiveConfig = unknown> {
     addPostgresDatabaseFactoryToContainer({ container: this.container });
   }
 
-  registerControllers = (path: string) => {
-    this.app.use(loadControllers(path, { cwd: __dirname }));
+  registerControllers = (path: string, root: string) => {
+    this.app.use(loadControllers(path, { cwd: root }));
   };
 
   register = this.container.register;

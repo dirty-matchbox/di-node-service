@@ -1,0 +1,14 @@
+{
+  "name": "@dirty-matchbox/di-node-service-example",
+  "version": "1.0.0",
+  "main": "index.ts",
+  "scripts": {
+    "build": "tsc",
+    "start-dev-example": "yarn tsc --build --force && yarn nodemon 'index.ts' --watch '.'"
+  },
+  "dependencies": {
+    "nodemon": "^3.1.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.2"
+  }
+}

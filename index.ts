@@ -1,5 +1,5 @@
 import * as express from "express";
-import { loadControllers } from "awilix-express";
+import { loadControllers, scopePerRequest } from "awilix-express";
 import { NameAndRegistrationPair, asClass, asValue, createContainer } from "awilix";
 import { ServiceConfig } from "./types";
 import Logger from "@dirty-matchbox/logger";
@@ -32,6 +32,9 @@ class Service<InclusiveInjections, InclusiveConfig = unknown> {
     } as NameAndRegistrationPair<ServiceInjections & InclusiveInjections>);
 
     this.app.use(express.json());
+
+    this.app.use(scopePerRequest(this.container))
+
     addPostgresDatabaseFactoryToContainer({ container: this.container });
   }
 

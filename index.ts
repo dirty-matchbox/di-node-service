@@ -45,7 +45,7 @@ class Service<InclusiveInjections, InclusiveConfig = unknown> {
   register = this.container.register;
 
   createPostgresDatabase = ({config}: {config: PostgresDatabaseConfig}) => {
-    this.container.cradle.postgresDatabaseFactory.register;
+    return this.container.cradle.postgresDatabaseFactory.register;
   }
 
   start = () => {

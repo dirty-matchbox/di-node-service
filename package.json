@@ -8,10 +8,10 @@
     "prepare": "npm run build",
     "release": "standard-version && git push --follow-tags && npm publish",
     "start-example": "node ./example/index.ts",
-    "start-dev-example": "yarn tsc --build --force && yarn nodemon './example/index.ts' --watch './example'"
+    "start-dev-example": "yarn tsc --build --force && yarn --cwd ./example nodemon --watch './example'"
   },
   "dependencies": {
-    "@dirty-matchbox/database": "git+https://github.com/dirty-matchbox/database",
+    "@dirty-matchbox/database": "git+https://github.com/dirty-matchbox/database.git",
     "@dirty-matchbox/logger": "git+https://github.com/dirty-matchbox/logger",
     "awilix": "^8.0.1",
     "awilix-express": "^8.0.0",

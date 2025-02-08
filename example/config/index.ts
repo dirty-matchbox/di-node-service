@@ -1,6 +1,11 @@
+import { PostgresDatabaseConfig } from "@dirty-matchbox/database";
 import { Environment, ServiceConfig } from "../../types";
 
-type ExampleServiceConfig = ServiceConfig & {};
+type ExampleServiceConfig = ServiceConfig & {
+  databases: {
+    example: PostgresDatabaseConfig;
+  };
+};
 
 const config: ExampleServiceConfig = {
   name: process.env.NAME ?? "example-service",
@@ -9,6 +14,16 @@ const config: ExampleServiceConfig = {
   logger: {
     environment: (process.env.ENVIRONMENT as Environment) ?? "development",
     name: process.env.NAME ?? "example-service",
+  },
+  databases: {
+    example: {
+      type: "postgres",
+      host: "localhost",
+      port: 5432,
+      name: "dirty_matchbox_example",
+      password: "password",
+      username: "dirty_matchbox_example_user",
+    },
   },
 };
 

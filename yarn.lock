@@ -38,9 +38,9 @@
     enabled "2.0.x"
     kuler "^2.0.0"
 
-"@dirty-matchbox/database@git+https://github.com/dirty-matchbox/database":
+"@dirty-matchbox/database@git+https://github.com/dirty-matchbox/database.git":
   version "1.0.2"
-  resolved "git+https://github.com/dirty-matchbox/database#d2dbc8943ed0cfe890a3aa4e6b77cca4195963db"
+  resolved "git+https://github.com/dirty-matchbox/database.git#68f2de368d1e3634071d2e15f4aaceb328ab0fe1"
   dependencies:
     "@types/pg" "^8.11.0"
     awilix "^10.0.1"

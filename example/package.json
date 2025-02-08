@@ -6,8 +6,11 @@
     "build": "tsc",
     "start-dev-example": "yarn tsc --build --force && yarn nodemon 'index.ts' --watch '.'"
   },
+  "peerDependencies": {
+    "@dirty-matchbox/database": "*"
+  },
   "dependencies": {
-    "nodemon": "^3.1.0",
+    "nodemon": "^3.1.9",
     "ts-node": "^10.9.2",
     "typescript": "^5.4.2"
   }

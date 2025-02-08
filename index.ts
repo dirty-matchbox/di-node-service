@@ -1,6 +1,13 @@
 import * as express from "express";
 import { loadControllers, scopePerRequest } from "awilix-express";
-import { NameAndRegistrationPair, asClass, asValue, createContainer } from "awilix";
+import {
+  NameAndRegistrationPair,
+  asClass,
+  asFunction,
+  asValue,
+  Resolver,
+  createContainer,
+} from "awilix";
 import { ServiceConfig } from "./types";
 import Logger from "@dirty-matchbox/logger";
 import {
@@ -11,7 +18,7 @@ import {
 
 type ServiceInjections = {
   config: ServiceConfig;
-  postgresDatabaseFactory: PostgresDatabaseFactory;
+  postgresDatabaseFactory: ReturnType<PostgresDatabaseFactory>;
   logger: Logger;
 };
 
@@ -33,8 +40,9 @@ class Service<InclusiveInjections, InclusiveConfig = unknown> {
 
     this.app.use(express.json());
 
-    this.app.use(scopePerRequest(this.container))
+    this.app.use(scopePerRequest(this.container));
 
+    // Factories for creating different database connections
     addPostgresDatabaseFactoryToContainer({ container: this.container });
   }
 
@@ -42,16 +50,24 @@ class Service<InclusiveInjections, InclusiveConfig = unknown> {
     this.app.use(loadControllers(path, { cwd: root }));
   };
 
-  register = this.container.register;
+  register = (
+    name: Extract<keyof InclusiveInjections, string>,
+    registration: Resolver<unknown>
+  ) => this.container.register(name, registration);
 
-  createPostgresDatabase = ({config}: {config: PostgresDatabaseConfig}) => {
-    return this.container.cradle.postgresDatabaseFactory.register;
-  }
+  createPostgresDatabase = ({ config }: { config: PostgresDatabaseConfig }) => {
+    return asFunction(
+      this.container.cradle.postgresDatabaseFactory.create({ config })
+    ).singleton();
+  };
 
-  start = () => {
+  start = (callback: (injections: typeof this.container.cradle) => void) => {
     this.app.listen(this.config.port, () => {
-      this.container.cradle.logger.info("Server is running on port " + this.config.port);
+      this.container.cradle.logger.info(
+        "Server is running on port " + this.config.port
+      );
     });
+    callback?.(this.container.cradle);
     return this.container;
   };
 }

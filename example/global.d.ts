@@ -1,4 +1,3 @@
-import { PostgresDatabase } from "@dirty-matchbox/database";
 import { PostgresDatabaseInterface } from "../interfaces";
 
 export {};

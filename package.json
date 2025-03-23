@@ -8,7 +8,8 @@
     "prepare": "npm run build",
     "release": "standard-version && git push --follow-tags && npm publish",
     "start-example": "node ./example/index.ts",
-    "start-dev-example": "yarn tsc --build --force && yarn --cwd ./example nodemon --watch './example'"
+    "start-dev-example": "yarn tsc --build --force && yarn --cwd ./example nodemon --watch './example'",
+    "databases-migrate-up": "$config $database "
   },
   "dependencies": {
     "@dirty-matchbox/database": "git+https://github.com/dirty-matchbox/database.git",

@@ -61,7 +61,7 @@ class Service<InclusiveInjections, InclusiveConfig = unknown> {
     ).singleton();
   };
 
-  start = (callback: (injections: typeof this.container.cradle) => void) => {
+  start = (callback?: (injections: typeof this.container.cradle) => void) => {
     this.app.listen(this.config.port, () => {
       this.container.cradle.logger.info(
         "Server is running on port " + this.config.port

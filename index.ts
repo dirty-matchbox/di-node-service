@@ -55,6 +55,10 @@ class Service<InclusiveInjections, InclusiveConfig = unknown> {
     registration: Resolver<unknown>
   ) => this.container.register(name, registration);
 
+  registerByPatterns = (patterns: string[]): void => {
+    this.container.loadModules(patterns);
+  }
+
   createPostgresDatabase = ({ config }: { config: PostgresDatabaseConfig }) => {
     return asFunction(
       this.container.cradle.postgresDatabaseFactory.create({ config })

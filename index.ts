@@ -73,9 +73,10 @@ class Service<InclusiveInjections, InclusiveConfig = unknown> {
     registration: Resolver<unknown>
   ) => this.container.register(name, registration);
 
-  registerByPatterns = (patterns) => {
+  registerByPatterns = (patterns, options) => {
     this.container.loadModules(patterns, {
       cwd: this.cwd,
+      ...options,
     } as LoadModulesOptions);
   };
 

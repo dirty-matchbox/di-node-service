@@ -15,10 +15,12 @@ import {
   PostgresDatabaseConfig,
   PostgresDatabaseFactory,
 } from "@dirty-matchbox/database";
+import routerFactory from "./router/routerFactory";
 
 type ServiceInjections = {
   config: ServiceConfig;
   postgresDatabaseFactory: ReturnType<PostgresDatabaseFactory>;
+  routerFactory: ReturnType<typeof import("./router/routerFactory").default>;
   logger: Logger;
 };
 
@@ -37,6 +39,8 @@ class Service<InclusiveInjections, InclusiveConfig = unknown> {
       config: asValue(config),
       logger: asClass(Logger).singleton(),
     } as NameAndRegistrationPair<ServiceInjections & InclusiveInjections>);
+
+    this.container.register("routerFactory", asFunction(routerFactory).singleton());
 
     this.app.use(express.json());
 
@@ -57,7 +61,7 @@ class Service<InclusiveInjections, InclusiveConfig = unknown> {
 
   registerByPatterns = (patterns: string[]): void => {
     this.container.loadModules(patterns);
-  }
+  };
 
   createPostgresDatabase = ({ config }: { config: PostgresDatabaseConfig }) => {
     return asFunction(

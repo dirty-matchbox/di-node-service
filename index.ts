@@ -7,6 +7,7 @@ import {
   asValue,
   Resolver,
   createContainer,
+  GlobWithOptions,
 } from "awilix";
 import { ServiceConfig } from "./types";
 import Logger from "@dirty-matchbox/logger";
@@ -40,7 +41,10 @@ class Service<InclusiveInjections, InclusiveConfig = unknown> {
       logger: asClass(Logger).singleton(),
     } as NameAndRegistrationPair<ServiceInjections & InclusiveInjections>);
 
-    this.container.register("routerFactory", asFunction(routerFactory).singleton());
+    this.container.register(
+      "routerFactory",
+      asFunction(routerFactory).singleton()
+    );
 
     this.app.use(express.json());
 
@@ -59,7 +63,7 @@ class Service<InclusiveInjections, InclusiveConfig = unknown> {
     registration: Resolver<unknown>
   ) => this.container.register(name, registration);
 
-  registerByPatterns = (patterns: string[]): void => {
+  registerByPatterns = (patterns: Array<GlobWithOptions>): void => {
     this.container.loadModules(patterns);
   };
 

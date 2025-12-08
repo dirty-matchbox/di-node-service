@@ -17,6 +17,7 @@ import {
   PostgresDatabaseFactory,
 } from "@dirty-matchbox/database";
 import routerFactory from "./router/routerFactory";
+import { LoadModulesOptions } from "awilix/lib/load-modules";
 
 type ServiceInjections = {
   config: ServiceConfig;
@@ -63,9 +64,7 @@ class Service<InclusiveInjections, InclusiveConfig = unknown> {
     registration: Resolver<unknown>
   ) => this.container.register(name, registration);
 
-  registerByPatterns = (patterns: Array<GlobWithOptions>): void => {
-    this.container.loadModules(patterns);
-  };
+  registerByPatterns = this.container.loadModules;
 
   createPostgresDatabase = ({ config }: { config: PostgresDatabaseConfig }) => {
     return asFunction(

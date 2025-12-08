@@ -8,6 +8,7 @@ import {
   Resolver,
   createContainer,
   GlobWithOptions,
+  AwilixContainer,
 } from "awilix";
 import { ServiceConfig } from "./types";
 import Logger from "@dirty-matchbox/logger";
@@ -27,16 +28,24 @@ type ServiceInjections = {
 };
 
 class Service<InclusiveInjections, InclusiveConfig = unknown> {
-  container = createContainer<ServiceInjections & InclusiveInjections>({
-    injectionMode: "PROXY",
-  });
+  private container: AwilixContainer<ServiceInjections & InclusiveInjections>;
+  private config: ServiceConfig & InclusiveConfig;
+  private app: express.Application = express();
+  private cwd: string;
 
-  config: ServiceConfig & InclusiveConfig;
-
-  app: express.Application = express();
-
-  constructor({ config }: { config: ServiceConfig & InclusiveConfig }) {
+  constructor({
+    config,
+    cwd,
+  }: {
+    config: ServiceConfig & InclusiveConfig;
+    cwd?: string;
+  }) {
     this.config = config;
+    this.cwd = cwd || process.cwd();
+
+    this.container = createContainer<ServiceInjections & InclusiveInjections>({
+      injectionMode: "PROXY",
+    });
     this.container.register({
       config: asValue(config),
       logger: asClass(Logger).singleton(),
@@ -64,7 +73,11 @@ class Service<InclusiveInjections, InclusiveConfig = unknown> {
     registration: Resolver<unknown>
   ) => this.container.register(name, registration);
 
-  registerByPatterns = this.container.loadModules;
+  registerByPatterns = (patterns) => {
+    this.container.loadModules(patterns, {
+      cwd: this.cwd,
+    } as LoadModulesOptions);
+  };
 
   createPostgresDatabase = ({ config }: { config: PostgresDatabaseConfig }) => {
     return asFunction(
